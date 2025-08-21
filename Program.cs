@@ -1,0 +1,44 @@
+using CreditsimulacaoApi.Data;
+using CreditsimulacaoApi.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Prometheus;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+builder.Services.AddScoped<IEventHubJsonWriter, EventHubJsonWriter>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<ISimulacaoPersistenceService, SimulacaoPersistenceService>();
+
+// SQL Server para produtos
+builder.Services.AddDbContext<ProductDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// SQLite para simulações
+builder.Services.AddDbContext<SimulationDbContext>(options =>
+    options.UseSqlite("Data Source=simulacoes.db"));
+
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Middleware para métricas HTTP padrão
+app.UseHttpMetrics();
+
+// Endpoint para expor as métricas
+app.MapMetrics(); // acessível em /metrics
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

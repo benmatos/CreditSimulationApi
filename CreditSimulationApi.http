@@ -1,0 +1,6 @@
+@CreditSimulationApi_HostAddress = http://localhost:5031
+
+GET {{CreditSimulationApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
