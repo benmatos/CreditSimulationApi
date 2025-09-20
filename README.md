@@ -45,13 +45,6 @@ docker build -t creditsimulationapi .
 docker run -p 8080:80 creditsimulationapi
 ```
 
-## Endpoints Principais
-
-| Método | Rota                | Descrição                        |
-|--------|---------------------|----------------------------------|
-| POST   | /api/proposal       | Simula uma nova proposta de crédito |
-| GET    | /api/proposal/{id}  | Obtém detalhes de uma proposta   |
-
 *Veja a documentação Swagger gerada automaticamente acessando `/swagger` quando o serviço estiver rodando.*
 
 ## Contribuição
